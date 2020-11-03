@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from './ModalItemButton';
-import { Order } from './Order';
+import { Button } from '../Styled/ModalItemButton';
+import { CountItem } from './CountItem';
+import { useCount } from '../Hooks/useCount';
+import { totalPriceItems } from '../Functions/secondaryFunction';
+import { formatCurrency } from '../Functions/secondaryFunction';
+import { Toppings } from './Toppings';
+import { useToppings } from '../Hooks/useToppings';
 
 const Overlay = styled.div`
     position: fixed;
@@ -48,7 +53,16 @@ const ItemTitle = styled.div`
     font-family: Pacifico;
 `;
 
+const TotalPriceItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
+
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+    const counter = useCount();
+    const toppings = useToppings(openItem);
+    
     const closeModal = e => {
         if (e.target.id === 'overlay') {
             setOpenItem(null);
@@ -56,7 +70,9 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     }
 
     const order = {
-        ...openItem
+        ...openItem,
+        count: counter.count,
+        topping: toppings.toppings
     };
 
     const addToOrder = () => {
@@ -71,8 +87,14 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
                 <Content>
                     <ItemTitle>
                         <p>{openItem.name}</p>
-                        <p>{openItem.price}</p>
+                        <p>{formatCurrency(openItem.price)}</p>
                     </ItemTitle>
+                    <CountItem {...counter}/>
+                    {openItem.toppings && <Toppings {...toppings}/>} 
+                    <TotalPriceItem>
+                        <span>Цена: </span>
+                        <span>{formatCurrency(totalPriceItems(order))}</span>
+                    </TotalPriceItem>
                     <Button onClick={addToOrder}>Добавить</Button>
                 </Content>
             </Modal>
