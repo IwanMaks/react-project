@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import dbMenu from '../DBMenu';
 import { ListItem } from './ListItem';
-import { useFetch } from '../Hooks/useFetch';
+import { Context } from '../Functions/context';
 
 const MenuStyled = styled.main`
     background-color: #ccc;
@@ -22,9 +22,10 @@ const Banner = styled.div`
     background-size: cover;
 `;
 
-export const Menu = ({ setOpenItem }) => {
-    const res = useFetch();
-    const dbMenu = res.response;
+export const Menu = ({ dbMenu }) => {
+    //const res = useFetch();
+    //const dbMenu = res.response;
+    const { openItem: { setOpenItem } } = useContext(Context);
 
     return (
         <MenuStyled>
@@ -43,9 +44,7 @@ export const Menu = ({ setOpenItem }) => {
                         itemList={dbMenu.other}
                         setOpenItem={setOpenItem}/>
                 </SectionMenu>
-            </> : res.error ? 
-            <div>Sorry, we will fix it soon...</div>
-            :
+            </> :
             <div>Loading...</div>
             }
         </MenuStyled>

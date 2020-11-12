@@ -11,6 +11,10 @@ import { useOpenItem } from './Components/Hooks/useOpenItem';
 import { useOrder } from './Components/Hooks/useOrders';
 import { useAuth } from './Components/Hooks/userAuth';
 import { useTitle } from './Components/Hooks/useTitle';
+import { useDB } from './Components/Hooks/useDB'; 
+import { OrderConfirm } from './Components/Order/OrderConfirm';
+import { useOrderConfirm } from './Components/Hooks/useOrderConfirm';
+import { Context } from './Components/Functions/context';
 
 
 const firebaseConfig = {
@@ -30,21 +34,29 @@ function App() {
     const auth = useAuth(firebase.auth);
     const openItem = useOpenItem();
     const orders = useOrder();
+    const orderConfirm = useOrderConfirm();
+    const database = firebase.database();
     useTitle(openItem.openItem);
+    const dbMenu = useDB(database);
 
     return (
-        <>
+        <Context.Provider value={{
+            auth,
+            openItem
+        }}>
         <GlobalStyle/>
-        <NavBar {...auth}/>
+        <NavBar/>
         <Order 
             {...orders} 
             {...openItem} 
             {...auth}
-            firebaseDatabase={firebase.database}
+            {...orderConfirm}
         />
-        <Menu {...openItem}/>
+        <Menu dbMenu={dbMenu}/>
         { openItem.openItem && <ModalItem {...openItem} {...orders}/>}
-        </>
+        {orderConfirm.openOrderConfirm && 
+            <OrderConfirm {...orders} {...auth} {...orderConfirm} database={database}/>}
+        </Context.Provider>
     );
 }
 
