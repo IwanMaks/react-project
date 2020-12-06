@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Button } from '../Styled/ModalItemButton';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
+import { Context } from '../Functions/context'
 
 const OrderStyled = styled.section`
     position: fixed;
@@ -50,15 +51,14 @@ const Empty = styled.p`
     text-align: center;
 `;
 
-export const Order = ({ 
-    orders, 
-    setOrders, 
-    setOpenItem, 
-    auth, 
-    login,
-    setOpenOrderConfirm
-    }) => {
+export const Order = () => {
 
+
+    const {
+        auth: { auth, login },
+        orders: { orders, setOrders },
+        orderConfirm: { setOpenOrderConfirm }
+    } = useContext(Context);
     
 
     const deleteItem = index => {
@@ -86,23 +86,26 @@ export const Order = ({
                         order={order} 
                         deleteItem={deleteItem} 
                         index={index}
-                        setOpenItem={setOpenItem}
                         />)}
                 </OrderList> :
                 <Empty>Список заказов пуст</Empty>}
             </OrderContent>
-            <Total>
-                <span>Итого</span>
-                <span>{totalCounter}</span>
-                <TotalPrice>{formatCurrency(total)}</TotalPrice>
-            </Total>
-            <Button onClick={() => {
-                if (auth) {
-                    setOpenOrderConfirm(true);
-                } else {
-                    login();
-                }
-            }}>Оформить</Button>
+            {orders.length ?
+                <>
+                    <Total>
+                        <span>Итого</span>
+                        <span>{totalCounter}</span>
+                        <TotalPrice>{formatCurrency(total)}</TotalPrice>
+                    </Total>
+                    <Button onClick={() => {
+                        if (auth) {
+                            setOpenOrderConfirm(true);
+                        } else {
+                            login();
+                        }
+                    }}>Оформить</Button>
+                </> : null
+            }
         </OrderStyled>
     )
 }

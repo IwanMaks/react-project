@@ -62,18 +62,18 @@ const Figure = styled.figure`
 `;
 
 export const NavBar = () => {
-    const {auth: { authf, login, logOut } } = useContext(Context);
+    const {auth: { auth, login, logOut } } = useContext(Context);
     return (
         <NavBarStyled>
             <Logo>
                 <Imglogo src={logoImg} alt='logo' />
                 <H1>MrDonald's</H1>
             </Logo>
-            {authf ? 
+            {auth ? 
                 <User>
                     <Figure>
-                        <img src={signImg} alt={authf.displayName} />
-                        <figcaption>{authf.displayName}</figcaption>
+                        <img src={signImg} alt={auth.displayName} />
+                        <figcaption>{auth.displayName}</figcaption>
                     </Figure>
                     <LogOut title='Выйти' onClick={logOut}>X</LogOut>
                 </User>:

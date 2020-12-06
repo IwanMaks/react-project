@@ -42,20 +42,17 @@ function App() {
     return (
         <Context.Provider value={{
             auth,
-            openItem
+            openItem,
+            orders,
+            orderConfirm,
+            database
         }}>
-        <GlobalStyle/>
-        <NavBar/>
-        <Order 
-            {...orders} 
-            {...openItem} 
-            {...auth}
-            {...orderConfirm}
-        />
+        <GlobalStyle />
+        <NavBar />
+        <Order />
         <Menu dbMenu={dbMenu}/>
-        { openItem.openItem && <ModalItem {...openItem} {...orders}/>}
-        {orderConfirm.openOrderConfirm && 
-            <OrderConfirm {...orders} {...auth} {...orderConfirm} database={database}/>}
+        { openItem.openItem && <ModalItem />}
+        {orderConfirm.openOrderConfirm && <OrderConfirm />}
         </Context.Provider>
     );
 }

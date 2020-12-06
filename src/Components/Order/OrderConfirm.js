@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Overlay } from '../Modal/ModalItem';
 import { OrderTitle, Total, TotalPrice } from './Order';
@@ -6,6 +6,7 @@ import { Button } from '../Styled/ModalItemButton';
 import { projection } from '../Functions/secondaryFunction';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
+import { Context } from '../Functions/context';
 
 const Modal = styled.div`
     background-color: white;
@@ -36,12 +37,15 @@ const sendOrder = (database, orders, auth) => {
     });
 }
 
-export const OrderConfirm = ({
-    orders, setOrders,
-    auth,
-    setOpenOrderConfirm,
-    database
-}) => {
+export const OrderConfirm = () => {
+
+    const {
+        orders: { orders, setOrders },
+        auth: { auth },
+        orderConfirm: { setOpenOrderConfirm },
+        database
+    } = useContext(Context);
+
     const total = orders.reduce((result, order) => {
         return totalPriceItems(order) + result
     }, 0);
