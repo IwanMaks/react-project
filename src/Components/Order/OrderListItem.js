@@ -1,4 +1,4 @@
- import React, { useRef, useContext } from 'react';
+ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import trachImg from '../../images/trash.svg';
 import { totalPriceItems } from '../Functions/secondaryFunction';

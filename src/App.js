@@ -45,12 +45,13 @@ function App() {
             openItem,
             orders,
             orderConfirm,
-            database
+            database,
+            dbMenu
         }}>
         <GlobalStyle />
         <NavBar />
         <Order />
-        <Menu dbMenu={dbMenu}/>
+        <Menu />
         { openItem.openItem && <ModalItem />}
         {orderConfirm.openOrderConfirm && <OrderConfirm />}
         </Context.Provider>

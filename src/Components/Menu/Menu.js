@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import dbMenu from '../DBMenu';
 import { ListItem } from './ListItem';
+import { Context } from '../Functions/context';
 
 const MenuStyled = styled.main`
     background-color: #ccc;
@@ -21,10 +21,11 @@ const Banner = styled.div`
     background-size: cover;
 `;
 
-export const Menu = ({ dbMenu }) => {
-    //const res = useFetch();
-    //const dbMenu = res.response;
-   
+export const Menu = () => {
+    
+    const {
+        dbMenu
+    } = useContext(Context);
 
     return (
         <MenuStyled>

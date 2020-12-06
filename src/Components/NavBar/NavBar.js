@@ -79,7 +79,7 @@ export const NavBar = () => {
                 </User>:
                 <Login onClick={login}>
                     <Figure>
-                        <img src={signImg} />
+                        <img src={signImg} alt='Войти'/>
                         <figcaption>Войти</figcaption>
                     </Figure>
                 </Login>}
